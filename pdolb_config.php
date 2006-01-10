@@ -44,7 +44,7 @@ class PDOLB_CONFIG {
 
 			// slave 2
 			array(
-				'dsn'            => 'mysql:host=lighttpd;dbname=test',
+				'dsn'            => 'mysql:host=192.168.0.4;dbname=test',
 				'username'       => 'root',
 				'password'       => '',
 				'driver_options' => array(),
