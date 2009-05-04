@@ -1,0 +1,69 @@
+== Introduction
+A Load Balance class for the PHP PDO extension with master/slave mode of MySQL. if one of the slaves or masters failed, will try to connect others automatically.
+
+== Examples
+
+using PDO
+	<?php 
+		$pdo = new PDO('mysql:host=localhost;dbname=test', 'user', 'pass');
+		$stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
+		$stmt->execute(array(10));
+	?>
+
+using PDOLB
+1. configure the pdolb_config.php file
+	<?php
+	class PDOLB_CONFIG {
+		public static $queryMode = PDOLB::MASTER_SLAVE;
+		public static $databases = array(
+
+			// masters (1 or more)
+			'master' => array(
+				array(
+					'dsn'            => 'mysql:host=localhost;dbname=test',
+					'username'       => 'root',
+					'password'       => '',
+					'driver_options' => array(),
+					'weight'         => 1
+				)
+			),
+
+			// slaves (1 or more)
+			'slave'  => array(
+
+				// slave 1
+				array(
+					'dsn'            => 'mysql:host=127.0.0.1;dbname=test',
+					'username'       => 'root',
+					'password'       => '',
+					'driver_options' => array(),
+					'weight'         => 1
+				),
+
+				// slave 2
+				array(
+					'dsn'            => 'mysql:host=lighttpd;dbname=test',
+					'username'       => 'root',
+					'password'       => '',
+					'driver_options' => array(),
+					'weight'         => 1
+				)
+
+				// can add more slaves below ...
+			)
+		);
+	}
+
+2. examples
+	<?php
+		# get a PDO instance. exactly, it is a PDOLB class instance, however, PDOLB class extends the PDO class.
+		$pdo = PDOLB::getInstance();
+		$stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
+		$stmt->execute(array(10));
+	?>
+
+== Author
+xianhua.zhou@gmail.com 
+
+== Homepage
+http://my.cnzxh.net
