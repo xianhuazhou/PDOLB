@@ -55,3 +55,4 @@ class PDOLB_CONFIG {
 		)
 	);
 }
+// end PDOLB_CONFIG class
