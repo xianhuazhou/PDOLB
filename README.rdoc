@@ -56,7 +56,7 @@ using PDOLB
 
 2. examples
 	<?php
-		# get a PDO instance. exactly, it is a PDOLB class instance, however, PDOLB class extends the PDO class.
+		# get a PDO instance. exactly, it is a instance of the PDOLB class, however,the PDOLB class extends the PDO class.
 		$pdo = PDOLB::getInstance();
 		$stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
 		$stmt->execute(array(10));
