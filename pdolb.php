@@ -9,7 +9,7 @@
  * @version 0.1 beta
  *
  */
-require_once dirname(__FILE__) . '/pdolb_config.php';
+require realpath(__DIR__) . '/pdolb_config.php';
 
 /**
  *
@@ -128,6 +128,7 @@ class PDOLB extends PDO {
 		self::shuffleDatabases($databases);
 
 		$pdolb = null;
+        $exceptions = array();
 		foreach ($databases as $database) {
 			if (isset(self::$connections[$database['dsn']])) {
 				return self::$connections[$database['dsn']];
@@ -140,14 +141,19 @@ class PDOLB extends PDO {
 					$database['password'], 
 					$database['driver_options']
 				);
-			} catch (Exception $e) {}
+            } catch (Exception $e) {
+                $exceptions[$database['dsn']] = $e->getMessage();
+                continue;
+            }
 
-			if ($pdolb && '' === $pdolb->errorCode()) {
-				return self::$connections[$databases['dsn']] = $pdolb;
-			}
+			if ($pdolb && '' == $pdolb->errorCode()) {
+				return self::$connections[$database['dsn']] = $pdolb;
+            } else {
+                $exceptions[$database['dsn']] = $pdolb->errorInfo();
+            }
 		}
 
-		throw new PDOLBException('No available database!');
+		throw new PDOLBException("No available database!\n" . print_r($exceptions, true));
 	}
 
 	/**
@@ -218,10 +224,10 @@ class PDOLB extends PDO {
 	/**
 	 * overwriten PDO::prepare
 	 */
-	public function prepare($statement, array $driverOptions = array()) {
+	public function prepare($statement, $driverOptions = array()) {
 		return self::getPDOLB()->_prepare($statement, $driverOptions);
 	}
-	private function _prepare($statement, array $driverOptions = array()) {
+	private function _prepare($statement, $driverOptions = array()) {
 		return parent::prepare($statement, $driverOptions);
 	}
 

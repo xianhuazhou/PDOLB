@@ -4,14 +4,17 @@ A Load Balance class for the PHP PDO extension with master/slave mode of MySQL. 
 == Examples
 
 using PDO
+```php
 	<?php 
 		$pdo = new PDO('mysql:host=localhost;dbname=test', 'user', 'pass');
 		$stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
 		$stmt->execute(array(10));
 	?>
+```
 
 using PDOLB
 1. configure the pdolb_config.php file
+```php
 	<?php
 	class PDOLB_CONFIG {
 		public static $queryMode = PDOLB::MASTER_SLAVE;
@@ -53,17 +56,22 @@ using PDOLB
 			)
 		);
 	}
+```
 
-2. examples
+2. example
+```php
 	<?php
+        # see example.php as well.
 		# get a PDO instance. exactly, it is a instance of the PDOLB class, however,the PDOLB class extends the PDO class.
+        require 'path/to/pdolb.php';
 		$pdo = PDOLB::getInstance();
 		$stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
 		$stmt->execute(array(10));
-	?>
+        print_r($stmt->fetchAll(PDO::FETCH_ASSOC));
+        $stmt->closeCursor();
+        $stmt = null;
+        $pdo = null;
+```
 
 == Author
 xianhua.zhou@gmail.com 
-
-== Homepage
-http://my.cnzxh.net

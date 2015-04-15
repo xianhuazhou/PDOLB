@@ -42,15 +42,6 @@ class PDOLB_CONFIG {
 				'weight'         => 1
 			),
 
-			// slave 2
-			array(
-				'dsn'            => 'mysql:host=192.168.0.4;dbname=test',
-				'username'       => 'root',
-				'password'       => '',
-				'driver_options' => array(),
-				'weight'         => 1
-			)
-
 			// can add more slaves below ...
 		)
 	);
