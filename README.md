@@ -1,9 +1,8 @@
-== Introduction
+# Introduction
 A Load Balance class for the PHP PDO extension with master/slave mode of MySQL. if one of the slaves or masters failed, will try to connect others automatically.
 
-== Examples
+### using PDO
 
-using PDO
 ```php
 	<?php 
 		$pdo = new PDO('mysql:host=localhost;dbname=test', 'user', 'pass');
@@ -12,8 +11,10 @@ using PDO
 	?>
 ```
 
-using PDOLB
-1. configure the pdolb_config.php file
+### using PDOLB
+
+* configure the pdolb\_config.php file
+
 ```php
 	<?php
 	class PDOLB_CONFIG {
@@ -58,7 +59,8 @@ using PDOLB
 	}
 ```
 
-2. example
+* example
+
 ```php
 	<?php
         # see example.php as well.
@@ -73,5 +75,5 @@ using PDOLB
         $pdo = null;
 ```
 
-== Author
+## Author
 xianhua.zhou@gmail.com 
